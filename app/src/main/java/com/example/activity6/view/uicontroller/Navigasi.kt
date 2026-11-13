@@ -15,6 +15,7 @@ import com.example.activity6.viewmodel.SiswaViewModel
 import com.example.activity6.model.DataJK.JenisK
 import com.example.activity6.view.FormSiswa
 import com.example.activity6.view.TampilSiswa
+import androidx.compose.runtime.collectAsState
 
 enum class Navigasi {
     Formulir,
@@ -29,6 +30,7 @@ fun SiswaApp(
     navController: NavHostController = rememberNavController()
 ){
     Scaffold { isiRuang ->
+        val uiState = viewModel.statusUI.collectAsState()
         NavHost(
             navController = navController,
             startDestination = Navigasi.Formulir.name,
@@ -39,13 +41,14 @@ fun SiswaApp(
                 FormSiswa(
                     pilihanJK = JenisK.map { id -> konteks.resources.getString(id) },
                     onSubmitButtonClicked = {
+                        viewModel.setSiswa(it)
                         navController.navigate(Navigasi.Detail.name)
                     }
                 )
             }
             composable(route = Navigasi.Detail.name){
                 TampilSiswa(
-                    statusUiSiswa = com.example.activity6.model.Siswa(),
+                    statusUiSiswa = uiState.value,
                     onBackButtonClicked = { cancelAndBackToFormulir(navController) }
                 )
             }
