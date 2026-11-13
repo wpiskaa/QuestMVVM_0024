@@ -22,6 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Activity 6"
+rootProject.name = "QuestMVVM_0024"
 include(":app")
- 
